@@ -1,5 +1,9 @@
 {
-  "devDependencies": {
-    "cypress": "^13.3.3"
-  }
+    "devDependencies": {
+        "cypress": "^13.3.3"
+    },
+
+    "scripts": {
+        "cypress:open": "cypress open"
+    }
 }
