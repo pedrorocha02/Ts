@@ -1,11 +1,15 @@
 describe("Trailer", () => {
+
   it("Search and play a trailer", () => {
+
     cy.viewport(1920, 1080);
+
     //Go to the website
-    cy.visit("https://www.imdb.com/");
+    cy.visit('https://www.imdb.com/')
 
     //Click on the "Browse Trailes" button
-    cy.get("https://www.imdb.com/").contains("Browse trailers").click();
+    cy.get(".ipc-page-grid__item.ipc-page-grid__item--span-3")
+      .contains("Browse trailers").click();
 
     //Click on the "Recently Added" button
     cy.get(".ipc-tab.ipc-tab--on-baseAlt").contains("RECENTLY ADDED").click();
@@ -14,59 +18,30 @@ describe("Trailer", () => {
     cy.get(".ipc-lockup-overlay.ipc-focusable").eq(2).click();
 
     // Click on the fullscreen button
-    cy.get(
-      ".jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-fullscreen"
-    )
-      .invoke("show")
-      .should("be.visible")
-      .click({ multiple: true });
-    /*
-            // Trailer progression bar
-            cy.get(
-              ".jw-slider-time.jw-background-color.jw-reset.jw-slider-horizontal.jw-reset"
-            ).then(($progressBar) => {
-              // Calculate the X-coordinate for the desired time (e.g., 50% of the progress bar width)
-              const progressBarWidth = $progressBar.width();
-              const desiredTimePercentage = 50; // Change this to your desired time percentage
-              const xCoordinate = (progressBarWidth * desiredTimePercentage) / 100;
+    // cy.get(
+    //   ".jw-icon.jw-icon-inline.jw-button-color.jw-reset.jw-icon-fullscreen"
+    // )
+    //   .invoke("show")
+    //   .should("be.visible")
+    //   .click();
 
-              // Trigger mouse events to simulate dragging the progress bar
-              cy.get(
-                ".jw-slider-time.jw-background-color.jw-reset.jw-slider-horizontal.jw-reset"
-              )
-                .trigger("mousedown", { clientX: 0 })
-                .trigger("mousemove", { clientX: xCoordinate })
-                .click();
-            });
+    //Find and click the pause button
+    // cy.get(".jw-icon.jw-icon-display.jw-button-color.jw-reset")
+    //   .wait(2000)
+    //   .click({ multiple: true })
+    //   .should("be.visible")
+    //   .click();
 
-            //Go to the next trailer by click the next button
-            cy.get(".jw-icon.jw-button-color.jw-reset.jw-icon-next")
-              .invoke("show")
-              .should("be.visible")
-              .click({ multiple: true });
+    // cy.get('.jw-icon.jw-icon-inline.jw-text.jw-reset.jw-text-elapsed')
+    //   .invoke('text').then((text) => {
+    //     cy.wait(2000)
+    //     const timeAtPause = text
+    //     cy.wait(5000)
+    //     cy.get('.jw-icon.jw-icon-inline.jw-text.jw-reset.jw-text-elapsed').invoke('text').then((text) => {
+    //       expect(text).to.equal(timeAtPause)
+    //     })
+    //   })
 
-            //Go to the previous trailer by click the previous button
-            cy.get(".jw-icon.jw-button-color.jw-reset.jw-icon-previous")
-              .invoke("show")
-              .should("be.visible")
-              .click({ multiple: true });
-
-            //Find and click the pause button
-            cy.get(".jw-icon.jw-icon-display.jw-button-color.jw-reset")
-              .click({ multiple: true })
-              .should("be.visible");
-        */
-    //Mute the trailer
-    cy.get(
-      ".jw-icon.jw-icon-tooltip.jw-icon-volume.jw-button-color.jw-reset.jw-full"
-    ).click({ multiple: true });
-
-    //Unmute the trailer
-    cy.get(
-      ".jw-icon.jw-icon-tooltip.jw-icon-volume.jw-button-color.jw-reset.jw-off"
-    ).click({ multiple: true });
-
-    //Find and click on the close button
-    cy.get('[data-testid="action-bar"]').contains("Close").click();
   });
+
 });

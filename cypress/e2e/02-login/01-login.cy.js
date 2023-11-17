@@ -36,8 +36,12 @@ describe('Tests the registration process', () => {
         cy.get('input[type="password"]')
             .type(password)
 
+        // TODO check if the password is not visible
+
         cy.get('#signInSubmit')
             .click()
+
+        // TODO check if the user is logged in
 
     })
 

@@ -2,6 +2,8 @@ const username = 'John Doe'
 const email = 'fagaxog869@rdluxe.com'
 const password = 'EorKcyET*NP^3X%o4Zq%&cEiGA^T7c#6#jb%6U!3ozGiTNPQTD'
 
+// TODO: slide 24 - powerpoint 5
+
 beforeEach(() => {
 
     cy.viewport(1920, 1080)
@@ -76,5 +78,7 @@ describe('Adds a movie to the watchlist', () => {
         })
 
     })
+
+    // TODO: add a movie in another way
 
 })

@@ -3,6 +3,8 @@ const email = 'tehoser254@newnime.com'
 const password = 'eJuj9F&yWZK5o'
 const wrongPassword = 'sTyk9G/wFGH6p'
 
+// TODO: add a decision table
+
 beforeEach(() => {
 
   cy.viewport(1920, 1080)
@@ -120,5 +122,9 @@ describe('Tests form input types, warnings and errors', () => {
     })
 
   })
+
+  // TODO: register user
+
+  // TODO: try to register with the same email
 
 })
