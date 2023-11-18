@@ -45,4 +45,6 @@ describe('Tests the registration process', () => {
 
     })
 
+    // TODO Add a test for the link to the registration page
+
 })
