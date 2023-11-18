@@ -2,7 +2,7 @@ import Constants from "../../../readme_docs/Constants"
 
 // User info
 const username = Constants.USERNAME
-const email = Constants.EMAIL
+const email = Constants.EMAIL_WITH_ACCOUNT
 const password = Constants.PASSWORD_CORRECT
 
 beforeEach(() => {

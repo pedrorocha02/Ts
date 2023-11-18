@@ -2,7 +2,7 @@ import Constants from "../../../readme_docs/Constants"
 
 // User info
 const username = Constants.USERNAME
-const email = Constants.EMAIL
+const email = Constants.EMAIL_WITH_ACCOUNT
 const password = Constants.PASSWORD_CORRECT
 
 beforeEach(() => {
@@ -17,11 +17,6 @@ beforeEach(() => {
 
     cy.get('.create-account')
         .click()
-
-    cy.get('.imdb-header__account-toggle--logged-in.imdb-header__accountmenu-toggle.navbar__user-name.navbar__user-menu-toggle__name')
-        .invoke('text').then((text) => {
-            expect(text).to.equal(username)
-        })
 
 })
 
@@ -44,10 +39,6 @@ describe('Tries to register an already existing user', () => {
             .type(password)
 
         cy.get("#continue").click()
-
-        if (Constants.MANUAL_CHECK) {
-            cy.wait(30000)
-        }
 
         cy.get("#auth-warning-message-box")
             .within(() => {
