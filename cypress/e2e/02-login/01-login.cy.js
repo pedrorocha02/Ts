@@ -1,6 +1,10 @@
-const username = 'John Doe'
-const email = 'fagaxog869@rdluxe.com'
-const password = 'EorKcyET*NP^3X%o4Zq%&cEiGA^T7c#6#jb%6U!3ozGiTNPQTD'
+import Constants from "../../../readme_docs/Constants"
+
+// User info
+const username = Constants.USERNAME
+const email = Constants.EMAIL
+const emailNoAccount = Constants.EMAIL_NO_ACCOUNT
+const password = Constants.PASSWORD_CORRECT
 
 beforeEach(() => {
 
@@ -12,7 +16,7 @@ beforeEach(() => {
 
     // log out if required
     userButton.then(($userButton) => {
-        if ($userButton.text().includes(username.substring(0, username.indexOf(' ')))) {
+        if ($userButton.text().includes(username)) {
             cy.get('imdb-header-account-menu__sign-out')
                 .click()
             cy.wait(5000)
@@ -26,25 +30,59 @@ beforeEach(() => {
         .click()
 })
 
-describe('Tests the registration process', () => {
+describe('Login tests', () => {
 
-    it('User login', () => {
+    it('Login and check if the user name appears in the topmost navigation', () => {
 
         cy.get('input[type="email"]')
             .type(email)
 
         cy.get('input[type="password"]')
             .type(password)
-
-        // TODO check if the password is not visible
+            .invoke('text').then((text) => {
+                expect(text).to.not.equal(password)
+            })
 
         cy.get('#signInSubmit')
             .click()
 
-        // TODO check if the user is logged in
+        if (Constants.MANUAL_CHECK) {
+            cy.wait(30000)
+        }
+
+        cy.get('.imdb-header__account-toggle--logged-in.imdb-header__accountmenu-toggle.navbar__user-name.navbar__user-menu-toggle__name')
+            .invoke('text').then((text) => {
+                expect(text).to.equal(username)
+            })
 
     })
 
-    // TODO Add a test for the link to the registration page
+    it('Login without an account to check error', () => {
+
+        cy.get('input[type="email"]')
+            .type(emailNoAccount)
+
+        cy.get('input[type="password"]')
+            .type(password)
+            .invoke('text').then((text) => {
+                expect(text).to.not.equal(password)
+            })
+
+        cy.get('#signInSubmit')
+            .click()
+
+        if (Constants.MANUAL_CHECK) {
+            cy.wait(30000)
+        }
+
+        // check for error message
+
+        cy.get('#auth-error-message-box')
+            .invoke('text').then((text) => {
+                expect(text.trim()).to.contain('We cannot find an account with that email address')
+            })
+
+
+    })
 
 })

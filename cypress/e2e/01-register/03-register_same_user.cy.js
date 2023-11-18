@@ -1,6 +1,9 @@
-const username = 'John Doe'
-const email = 'tehoser254@newnime.com'
-const password = 'eJuj9F&yWZK5o'
+import Constants from "../../../readme_docs/Constants"
+
+// User info
+const username = Constants.USERNAME
+const email = Constants.EMAIL
+const password = Constants.PASSWORD_CORRECT
 
 beforeEach(() => {
 
@@ -8,26 +11,23 @@ beforeEach(() => {
     cy.visit('https://www.imdb.com/')
 
     // get the user button  
-    const userButton = cy.get('.navbar__user > a').first()
-
-    // log out if required
-    userButton.then(($userButton) => {
-        if ($userButton.text().includes(username.substring(0, username.indexOf(' ')))) {
-            cy.get('imdb-header-account-menu__sign-out')
-                .click()
-            cy.wait(5000)
-        }
-    })
-
-    userButton.click()
+    cy.get('.navbar__user > a')
+        .first()
+        .click()
 
     cy.get('.create-account')
         .click()
+
+    cy.get('.imdb-header__account-toggle--logged-in.imdb-header__accountmenu-toggle.navbar__user-name.navbar__user-menu-toggle__name')
+        .invoke('text').then((text) => {
+            expect(text).to.equal(username)
+        })
+
 })
 
-describe('Tests the registration process', () => {
+describe('Tries to register an already existing user', () => {
 
-    it('Checks if users already has an account', () => {
+    it('Checks for error if the email is already registered', () => {
 
         // Name field
         cy.get("#ap_customer_name")
@@ -44,6 +44,10 @@ describe('Tests the registration process', () => {
             .type(password)
 
         cy.get("#continue").click()
+
+        if (Constants.MANUAL_CHECK) {
+            cy.wait(30000)
+        }
 
         cy.get("#auth-warning-message-box")
             .within(() => {

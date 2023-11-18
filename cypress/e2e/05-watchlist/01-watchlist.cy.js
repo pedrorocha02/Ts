@@ -1,8 +1,9 @@
-const username = 'John Doe'
-const email = 'fagaxog869@rdluxe.com'
-const password = 'EorKcyET*NP^3X%o4Zq%&cEiGA^T7c#6#jb%6U!3ozGiTNPQTD'
+import Constants from "../../../readme_docs/Constants"
 
-// TODO: slide 24 - powerpoint 5
+// User info
+const username = Constants.USERNAME
+const email = Constants.EMAIL
+const password = Constants.PASSWORD_CORRECT
 
 beforeEach(() => {
 
@@ -14,7 +15,7 @@ beforeEach(() => {
 
     // log out if required
     userButton.then(($userButton) => {
-        if ($userButton.text().includes(username.substring(0, username.indexOf(' ')))) {
+        if ($userButton.text().includes(username)) {
             cy.get('imdb-header-account-menu__sign-out')
                 .click()
             cy.wait(5000)

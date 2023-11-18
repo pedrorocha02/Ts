@@ -1,9 +1,16 @@
-const username = 'John Doe'
-const email = 'tehoser254@newnime.com'
-const password = 'eJuj9F&yWZK5o'
-const wrongPassword = 'sTyk9G/wFGH6p'
+import Constants from "../../../readme_docs/Constants"
 
-// TODO: add a decision table
+// User info
+const username = Constants.USERNAME
+const email = Constants.EMAIL
+
+// Passwords
+const password = Constants.PASSWORD_CORRECT
+const passwordWrong = Constants.PASSWORD_WRONG
+const passwordShort = Constants.PASSWORD_SHORT
+
+// Set to true if manual check is required
+const needsHuman = Constants.MANUAL_CHECK
 
 beforeEach(() => {
 
@@ -11,18 +18,9 @@ beforeEach(() => {
   cy.visit('https://www.imdb.com/')
 
   // get the user button  
-  const userButton = cy.get('.navbar__user > a').first()
-
-  // log out if required
-  userButton.then(($userButton) => {
-    if ($userButton.text().includes(username.substring(0, username.indexOf(' ')))) {
-      cy.get('imdb-header-account-menu__sign-out')
-        .click()
-      cy.wait(5000)
-    }
-  })
-
-  userButton.click()
+  cy.get('.navbar__user > a')
+    .first()
+    .click()
 
   cy.get('.create-account')
     .click()
@@ -52,7 +50,7 @@ describe('Tests form input types, warnings and errors', () => {
 
     // Fills the email field
     cy.get("#ap_email")
-      .type('not_an_email')
+      .type(Constants.EMAIL_WRONG)
 
     cy.get("#continue").click()
 
@@ -74,16 +72,12 @@ describe('Tests form input types, warnings and errors', () => {
 
     cy.get("#ap_password")
       .type(password)
-
-    cy.get("#ap_password")
       .invoke('text').then((text) => {
         expect(text).to.not.equal(password)
       })
 
     cy.get("#ap_password_check")
       .type(password)
-
-    cy.get("#ap_password_check")
       .invoke('text').then((text) => {
         expect(text).to.not.equal(password)
       })
@@ -107,7 +101,7 @@ describe('Tests form input types, warnings and errors', () => {
       .type(password)
 
     cy.get("#ap_password_check")
-      .type(wrongPassword)
+      .type(passwordWrong)
 
     cy.get("#continue").click()
 
@@ -123,8 +117,39 @@ describe('Tests form input types, warnings and errors', () => {
 
   })
 
-  // TODO: register user
+  it('Checks for error if the password is too short', () => {
 
-  // TODO: try to register with the same email
+    // Fill everything
+
+    // Name field
+    cy.get("#ap_customer_name")
+      .type(username)
+
+    // // Email field
+    cy.get("#ap_email")
+      .type(email)
+
+    // Password fields
+    cy.get("#ap_password")
+      .type(passwordShort)
+
+    cy.get("#ap_password_check")
+      .type(passwordShort)
+
+    cy.get("#continue").click()
+
+    if (needsHuman) {
+      cy.wait(30000)
+    }
+
+    cy.get("#auth-error-message-box")
+      .within(() => {
+        cy.get(".a-list-item")
+          .contains('Passwords must be at least 8 characters.')
+          .invoke('text').then((text) => {
+            expect(text.trim()).equal('Passwords must be at least 8 characters.')
+          });
+      })
+  })
 
 })

@@ -1,6 +1,12 @@
-const username = 'John Doe'
-const email = 'tehoser254@newnime.com'
-const password = 'eJuj9F&yWZK5o'
+import Constants from "../../../readme_docs/Constants"
+
+// User info
+const username = Constants.USERNAME
+const email = Constants.EMAIL
+const password = Constants.PASSWORD_CORRECT
+
+// set to true if manual check is required
+const needsHuman = Constants.MANUAL_CHECK
 
 beforeEach(() => {
 
@@ -8,24 +14,15 @@ beforeEach(() => {
     cy.visit('https://www.imdb.com/')
 
     // get the user button  
-    const userButton = cy.get('.navbar__user > a').first()
-
-    // log out if required
-    userButton.then(($userButton) => {
-        if ($userButton.text().includes(username.substring(0, username.indexOf(' ')))) {
-            cy.get('imdb-header-account-menu__sign-out')
-                .click()
-            cy.wait(5000)
-        }
-    })
-
-    userButton.click()
+    cy.get('.navbar__user > a')
+        .first()
+        .click()
 
     cy.get('.create-account')
         .click()
 })
 
-describe('Tests the login process', () => {
+describe('Test the registration process', () => {
 
     it('Registers a user', () => {
 
@@ -44,6 +41,10 @@ describe('Tests the login process', () => {
             .type(password)
 
         cy.get("#continue").click()
+
+        if (needsHuman) {
+            cy.wait(120000)
+        }
     })
 
     it('Checks if users already has an account', () => {
