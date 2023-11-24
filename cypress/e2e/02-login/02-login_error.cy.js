@@ -30,12 +30,12 @@ beforeEach(() => {
         .click()
 })
 
-describe('Login test 01', () => {
+describe('Login test 02', () => {
 
-    it('Login and check if the user name appears in the topmost navigation', () => {
+    it('Login without an account to check error', () => {
 
         cy.get('input[type="email"]')
-            .type(email)
+            .type(emailNoAccount)
 
         cy.get('input[type="password"]')
             .type(password)
@@ -47,13 +47,16 @@ describe('Login test 01', () => {
             .click()
 
         if (Constants.MANUAL_CHECK) {
-            cy.wait(30000)
+            cy.wait(10000)
         }
 
-        cy.get('.imdb-header__account-toggle--logged-in.imdb-header__accountmenu-toggle.navbar__user-name.navbar__user-menu-toggle__name')
+        // check for error message
+
+        cy.get('#auth-error-message-box')
             .invoke('text').then((text) => {
-                expect(text).to.equal(username)
+                expect(text.trim()).to.contain('We cannot find an account with that email address')
             })
+
 
     })
 

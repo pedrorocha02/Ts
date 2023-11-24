@@ -139,7 +139,7 @@ describe('Tests form input types, warnings and errors', () => {
     cy.get("#continue").click()
 
     if (needsHuman) {
-      cy.wait(30000)
+      cy.wait(10000)
     }
 
     cy.get("#auth-error-message-box")

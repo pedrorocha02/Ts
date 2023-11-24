@@ -43,8 +43,13 @@ describe('Test the registration process', () => {
         cy.get("#continue").click()
 
         if (needsHuman) {
-            cy.wait(120000)
+            cy.wait(30000)
         }
+
+        cy.get('.imdb-header__account-toggle--logged-in.imdb-header__accountmenu-toggle.navbar__user-name.navbar__user-menu-toggle__name')
+            .invoke('text').then((text) => {
+                expect(text).to.equal(username)
+            })
     })
 
     it('Checks if users already has an account', () => {
